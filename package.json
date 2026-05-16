@@ -1,0 +1,36 @@
+{
+  "name": "holocron",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Holocron — self-hosted household routine & reward app.",
+  "license": "Apache-2.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run migration:run && concurrently --kill-others --names api,web --prefix-colors cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm --workspace apps/api run start:dev",
+    "dev:web": "npm --workspace apps/web run dev",
+    "build": "npm --workspace apps/api run build && npm --workspace apps/web run build",
+    "lint": "npm --workspaces --if-present run lint",
+    "test": "npm --workspace apps/api --workspace apps/web --if-present run test",
+    "migration:run": "npm --workspace apps/api run migration:run",
+    "migration:revert": "npm --workspace apps/api run migration:revert",
+    "migration:generate": "npm --workspace apps/api run migration:generate --",
+    "migration:create": "npm --workspace apps/api run migration:create --",
+    "seed": "npm --workspace apps/api run seed",
+    "e2e": "npm --workspace apps/e2e run test",
+    "e2e:ui": "npm --workspace apps/e2e run test:ui",
+    "screenshots": "node scripts/screenshots/build-gif.mjs"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "unrs-resolver": false
+  }
+}

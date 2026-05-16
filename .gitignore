@@ -1,0 +1,25 @@
+.claude/*.lock
+.claude/settings.local.json
+.claude/worktrees/
+# Local-only spikes and prototypes.
+/archive/
+# No trailing slash: also ignores a stray `node_modules` symlink (git worktrees
+# create one), not just real directories. A trailing-slash pattern matches dirs
+# only, which is how a committed symlink slipped in before.
+node_modules
+dist/
+build/
+.env
+.env.local
+.DS_Store
+*.log
+npm-debug.log*
+coverage/
+.vite/
+.cache/
+.idea/
+.vscode/
+*.tsbuildinfo
+test-results/
+test-results-screenshots/
+playwright-report/
