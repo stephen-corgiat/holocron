@@ -1,0 +1,183 @@
+{
+  "_doc": [
+    "Routine (recurring) tasks. Each row maps directly to one TaskEntity.",
+    "`assignees` is a list of displayName strings (must match users.json).",
+    "`kind` is `recurring` (the seeder only handles this kind).",
+    "`dueTime` is `HH:MM` local. `recurrence` matches the engine pattern shape:",
+    "  { \"preset\": \"daily\" } | { \"preset\": \"weekdays\" } | { \"preset\": \"weekends\" }",
+    "  | { \"preset\": \"weekly\", \"days\": [0..6] }   (0 = Sunday)",
+    "  | { \"preset\": \"biweekly\", \"days\": [...], \"anchor\": \"YYYY-MM-DD\" }",
+    "`ladder` is the escalation ladder. The Restriction component of any tier",
+    "is silently skipped for non-Restrictable Trackees (adults), so the same",
+    "ladder is safe to assign to mixed groups."
+  ],
+  "kidLadderModerate": [
+    { "points": 5, "restriction": null },
+    {
+      "points": 15,
+      "restriction": { "type": "entertainment", "duration_minutes": 60 }
+    },
+    {
+      "points": 25,
+      "restriction": { "type": "internet", "duration_minutes": 240 }
+    }
+  ],
+  "kidLadderLight": [
+    { "points": 3, "restriction": null },
+    {
+      "points": 8,
+      "restriction": { "type": "entertainment", "duration_minutes": 30 }
+    }
+  ],
+  "adultLadderLight": [
+    { "points": 5, "restriction": null },
+    { "points": 10, "restriction": null }
+  ],
+  "tasks": [
+    {
+      "name": "Get dressed",
+      "kind": "recurring",
+      "dueTime": "07:15",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Make bed",
+      "kind": "recurring",
+      "dueTime": "07:15",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Brush teeth (morning)",
+      "kind": "recurring",
+      "dueTime": "08:15",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "kidLadderModerate",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Eat breakfast",
+      "kind": "recurring",
+      "dueTime": "08:30",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Feed the dog (morning)",
+      "kind": "recurring",
+      "dueTime": "08:30",
+      "recurrence": { "preset": "daily" },
+      "points": 2,
+      "ladderRef": "kidLadderModerate",
+      "assignees": ["Alice"]
+    },
+    {
+      "name": "Homework done",
+      "kind": "recurring",
+      "dueTime": "17:30",
+      "recurrence": { "preset": "weekdays" },
+      "points": 3,
+      "ladderRef": "kidLadderModerate",
+      "requiresVerification": true,
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Set the dinner table",
+      "kind": "recurring",
+      "dueTime": "18:00",
+      "recurrence": { "preset": "daily" },
+      "points": 2,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice"]
+    },
+    {
+      "name": "Clear the dinner table",
+      "kind": "recurring",
+      "dueTime": "19:30",
+      "recurrence": { "preset": "daily" },
+      "points": 2,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Bob"]
+    },
+    {
+      "name": "Clean your room",
+      "kind": "recurring",
+      "dueTime": "20:00",
+      "recurrence": { "preset": "daily" },
+      "points": 2,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Brush teeth (evening)",
+      "kind": "recurring",
+      "dueTime": "20:45",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "kidLadderModerate",
+      "assignees": ["Alice", "Bob"]
+    },
+    {
+      "name": "Pack school bag for tomorrow",
+      "kind": "recurring",
+      "dueTime": "21:00",
+      "recurrence": { "preset": "weekly", "days": [0, 1, 2, 3, 4] },
+      "points": 2,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Alice"]
+    },
+    {
+      "name": "Take out trash and recycling",
+      "kind": "recurring",
+      "dueTime": "20:00",
+      "recurrence": { "preset": "weekly", "days": [0] },
+      "points": 5,
+      "ladderRef": "kidLadderLight",
+      "assignees": ["Bob"]
+    },
+    {
+      "name": "Make the bed",
+      "kind": "recurring",
+      "dueTime": "08:30",
+      "recurrence": { "preset": "daily" },
+      "points": 1,
+      "ladderRef": "adultLadderLight",
+      "assignees": ["Chad", "Debbie"]
+    },
+    {
+      "name": "Clean the kitchen",
+      "kind": "recurring",
+      "dueTime": "21:00",
+      "recurrence": { "preset": "daily" },
+      "points": 3,
+      "ladderRef": "adultLadderLight",
+      "assignees": ["Chad", "Debbie"]
+    },
+    {
+      "name": "Run the dishwasher",
+      "kind": "recurring",
+      "dueTime": "22:00",
+      "recurrence": { "preset": "daily" },
+      "points": 2,
+      "ladderRef": "adultLadderLight",
+      "assignees": ["Chad"]
+    },
+    {
+      "name": "Walk the dog (evening)",
+      "kind": "recurring",
+      "dueTime": "19:00",
+      "recurrence": { "preset": "daily" },
+      "points": 3,
+      "ladderRef": "adultLadderLight",
+      "assignees": ["Chad"]
+    }
+  ]
+}

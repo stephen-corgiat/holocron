@@ -1,0 +1,99 @@
+{
+  "_doc": [
+    "Seed Trackees. Each user references a presence schedule by `presence`.",
+    "Presence schedule shapes:",
+    "  - { \"kind\": \"none\" } — no presence tracking (admins default).",
+    "  - { \"kind\": \"full_time\" } — always home.",
+    "  - { \"kind\": \"n_week_grid\", \"nWeeks\": 2, \"epochDate\": \"YYYY-MM-DD\", \"cells\": [[...7 cells...], [...7 cells...]] }",
+    "    Each cell is { \"kind\": \"home\" | \"away\", \"handoff_time\"?: \"HH:MM\" }.",
+    "    Weekday order in each week row: Mon, Tue, Wed, Thu, Fri, Sat, Sun (ISO Mon-first).",
+    "`devices` is optional; entries get created as a Device row under the Trackee."
+  ],
+  "users": [
+    {
+      "displayName": "Alice",
+      "username": "alice",
+      "isAdmin": false,
+      "isRestrictable": true,
+      "color": "#4FC3F7",
+      "avatar": "AL",
+      "_note": "Part-time Trackee on a 2-week N-week grid (example pattern).",
+      "presence": {
+        "kind": "n_week_grid",
+        "nWeeks": 2,
+        "epochDate": "2026-05-04",
+        "cells": [
+          [
+            { "kind": "away" },
+            { "kind": "away" },
+            { "kind": "away" },
+            { "kind": "away" },
+            { "kind": "home", "handoff_time": "17:00" },
+            { "kind": "home" },
+            { "kind": "home" }
+          ],
+          [
+            { "kind": "away" },
+            { "kind": "home", "handoff_time": "17:00" },
+            { "kind": "home" },
+            { "kind": "home" },
+            { "kind": "home" },
+            { "kind": "home" },
+            { "kind": "home" }
+          ]
+        ]
+      },
+      "devices": [
+        {
+          "displayName": "Alice's tablet",
+          "ipAddress": "192.0.2.40",
+          "macAddress": null
+        }
+      ]
+    },
+    {
+      "displayName": "Bob",
+      "username": "bob",
+      "isAdmin": false,
+      "isRestrictable": true,
+      "color": "#FFB300",
+      "avatar": "BO",
+      "_note": "Full-time Trackee.",
+      "presence": { "kind": "full_time" },
+      "devices": [
+        {
+          "displayName": "Bob's laptop",
+          "ipAddress": "192.0.2.41",
+          "macAddress": null
+        },
+        {
+          "displayName": "Bob's phone",
+          "ipAddress": "192.0.2.42",
+          "macAddress": null
+        }
+      ]
+    },
+    {
+      "displayName": "Chad",
+      "username": "chad",
+      "password": "change-me",
+      "isAdmin": true,
+      "isRestrictable": false,
+      "color": "#00E5FF",
+      "avatar": "CH",
+      "_note": "Adult admin. Default presence is `none` for admins.",
+      "presence": { "kind": "none" }
+    },
+    {
+      "displayName": "Debbie",
+      "username": "debbie",
+      "password": "change-me",
+      "isAdmin": true,
+      "isRestrictable": false,
+      "color": "#E040FB",
+      "avatar": "DE",
+      "_note": "Adult admin. Default presence is `none` for admins.",
+      "presence": { "kind": "none" }
+    }
+  ]
+}

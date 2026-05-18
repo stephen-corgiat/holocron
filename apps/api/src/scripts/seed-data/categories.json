@@ -1,0 +1,15 @@
+{
+  "_doc": [
+    "Goal categories. `sortOrder` controls catalog ordering (ascending).",
+    "Goals reference categories by `name` — keep names stable or update goals.json."
+  ],
+  "categories": [
+    { "name": "Physical / Outdoors", "sortOrder": 1 },
+    { "name": "Learning", "sortOrder": 2 },
+    { "name": "Chores (beyond daily routine)", "sortOrder": 3 },
+    { "name": "Creative / Making", "sortOrder": 4 },
+    { "name": "Kindness / Helping", "sortOrder": 5 },
+    { "name": "Content creation (YouTube)", "sortOrder": 6 },
+    { "name": "Basketball", "sortOrder": 7 }
+  ]
+}
