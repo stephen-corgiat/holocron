@@ -1,0 +1,63 @@
+name: holocron
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-holocron}
+      POSTGRES_USER: ${POSTGRES_USER:-holocron}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-holocron}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - holocron-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-holocron} -d ${POSTGRES_DB:-holocron}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      API_PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-holocron}
+      POSTGRES_USER: ${POSTGRES_USER:-holocron}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-holocron}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:8080}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ADMIN_TTL: ${JWT_ADMIN_TTL:-12h}
+      BOOTSTRAP_ADMIN_USERNAME: ${BOOTSTRAP_ADMIN_USERNAME:-}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+      BOOTSTRAP_ADMIN_DISPLAY_NAME: ${BOOTSTRAP_ADMIN_DISPLAY_NAME:-Admin}
+      ROUTER_BASE_URL: ${ROUTER_BASE_URL}
+      ROUTER_BEARER_TOKEN: ${ROUTER_BEARER_TOKEN}
+      PIHOLE_BASE_URL: ${PIHOLE_BASE_URL}
+      PIHOLE_API_PASSWORD: ${PIHOLE_API_PASSWORD}
+      PIHOLE_GAMES_GROUP_NAME: ${PIHOLE_GAMES_GROUP_NAME:-blocked-games-dynamic}
+      PIHOLE_STREAMING_GROUP_NAME: ${PIHOLE_STREAMING_GROUP_NAME:-blocked-streaming-dynamic}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${API_PORT:-3000}:3000"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+volumes:
+  holocron-pgdata: {}
