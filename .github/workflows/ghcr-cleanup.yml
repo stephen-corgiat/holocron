@@ -1,0 +1,23 @@
+name: Daily Image Cleanup
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    name: cleanup (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    strategy:
+      matrix:
+        app: [api, web]
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          package: holocron/${{ matrix.app }}
+          keep-n-tagged: 5
+          delete-untagged: true
+          token: ${{ secrets.GITHUB_TOKEN }}
