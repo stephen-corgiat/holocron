@@ -1,6 +1,7 @@
 name: ci
 
-# Unit tests only (e2e needs Postgres + browsers; run locally).
+# Unit tests and, on PRs, an image build (e2e needs Postgres + browsers; run
+# locally).
 # Pushes to master run this via docker-publish.yml, which gates the image
 # build on it.
 on:
@@ -36,3 +37,30 @@ jobs:
 
       - name: Unit tests (api + web)
         run: npm test
+
+  # Build the images without pushing, so a dependency bump that breaks a
+  # Dockerfile fails on the PR. On master docker-publish.yml builds them.
+  image:
+    name: image build (${{ matrix.app }})
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        app: [api, web]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: apps/${{ matrix.app }}/Dockerfile
+          push: false
+          cache-from: type=gha,scope=${{ matrix.app }}

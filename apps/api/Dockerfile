@@ -17,7 +17,8 @@ COPY apps/api ./apps/api
 RUN npm --workspace apps/api run build
 
 # Prune to production deps only (for the runtime image).
-RUN npm ci --workspace apps/api --omit=dev --include-workspace-root
+RUN npm ci --workspace apps/api --omit=dev --include-workspace-root \
+ && mkdir -p apps/api/node_modules
 
 # ---- runtime ----
 FROM node:24-alpine AS runtime
