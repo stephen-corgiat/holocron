@@ -16,9 +16,7 @@ RUN npm ci --workspaces --include-workspace-root
 COPY apps/api ./apps/api
 RUN npm --workspace apps/api run build
 
-# Prune to production deps only (for the runtime image). npm only creates
-# apps/api/node_modules when a dep can't be hoisted, so make sure it exists
-# for the COPY below.
+# Prune to production deps only (for the runtime image).
 RUN npm ci --workspace apps/api --omit=dev --include-workspace-root \
  && mkdir -p apps/api/node_modules
 
