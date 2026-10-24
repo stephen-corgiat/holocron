@@ -12,6 +12,10 @@ updates:
       # Track the Node major in the Dockerfiles, not the latest types.
       - dependency-name: "@types/node"
         update-types: [version-update:semver-major]
+      # A TypeScript major needs ts-jest, the Nest build and Vite checked
+      # together; 7 drops the JS compiler API ts-jest loads.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
 
   # Node and nginx base images. Node majors are bumped by hand alongside
   # engines.node, CI's node-version and @types/node.
