@@ -6,7 +6,7 @@ See also: [deployment.md](deployment.md) (self-hosting from the published images
 
 ## Prerequisites
 
-- Node 22.12+ to run the app (`engines.node` in [../package.json](../package.json)); Node 24.9+ to run the API unit tests (Jest loads the ESM-only NestJS 12 packages via `require(esm)`)
+- Node 24.9+ (`engines.node` in [../package.json](../package.json); the API's Jest suite loads the ESM-only NestJS 12 packages via `require(esm)`). The Docker images and CI use the same major.
 - Docker (for Postgres)
 - Optional: PiHole + EdgeRouter on the LAN to exercise enforcement adapters end-to-end. Without them, set `FAKE_ENFORCEMENT=true` in `.env` to use the in-memory fakes (the API otherwise refuses to start when PiHole is unreachable).
 

@@ -1,8 +1,7 @@
 # Multi-stage Alpine image for the Holocron API.
-ARG NODE_VERSION=22-alpine
 
 # ---- builder ----
-FROM node:${NODE_VERSION} AS builder
+FROM node:24-alpine AS builder
 WORKDIR /repo
 
 # Workspace manifests first for cache-friendly installs.
@@ -21,7 +20,7 @@ RUN npm --workspace apps/api run build
 RUN npm ci --workspace apps/api --omit=dev --include-workspace-root
 
 # ---- runtime ----
-FROM node:${NODE_VERSION} AS runtime
+FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 

@@ -4,7 +4,7 @@ Thanks for helping. Bug reports, fixes and features are all welcome. For anythin
 
 ## Set up
 
-You need Node 24.9+ (the app itself runs on 22.12+, but the API's Jest suite needs `require(esm)`), npm 10+, and Docker for Postgres.
+You need Node 24.9+ (the API's Jest suite needs `require(esm)`), npm 10+, and Docker for Postgres.
 
 ```sh
 npm ci

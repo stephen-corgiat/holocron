@@ -24,7 +24,7 @@
     "screenshots": "node scripts/screenshots/build-gif.mjs"
   },
   "engines": {
-    "node": ">=22.12"
+    "node": ">=24.9"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

@@ -1,0 +1,42 @@
+version: 2
+updates:
+  # Root lockfile covers every workspace (apps/api, apps/web, apps/e2e).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Track the Node major in the Dockerfiles, not the latest types.
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
+
+  # Node and nginx base images. Node majors are bumped by hand alongside
+  # engines.node, CI's node-version and @types/node.
+  - package-ecosystem: docker
+    directories: [/apps/api, /apps/web]
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+
+  # Postgres image tag in the dev and production compose files. A Postgres
+  # major needs a dump/restore of the data volume, so those stay manual.
+  - package-ecosystem: docker-compose
+    directories: [/, /deploy]
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
