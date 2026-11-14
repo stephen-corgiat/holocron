@@ -27,7 +27,7 @@
     "node": ">=24.9"
   },
   "devDependencies": {
-    "concurrently": "^10.0.6"
+    "concurrently": "^10.0.7"
   },
   "allowScripts": {
     "@parcel/watcher": false,
